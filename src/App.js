@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import { addPost } from './features/Posts';
+import { addPost, deletePost } from './features/Posts';
 
 function App() {
   const [name, setName] = useState("");
@@ -11,16 +11,24 @@ function App() {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(addPost(
-      {
-        id: postList.length,
-        name: name,
-        content: content,
-      }
-    ));
+    dispatch(
+      addPost(
+        {
+          id: postList.length,
+          name: name,
+          content: content,
+        }
+      )
+    );
 
     setName("");
     setContent("");
+  };
+
+  const handleDelete = (id) => {
+    dispatch(
+      deletePost({ id: id })
+    );
   };
   
   return (
@@ -39,7 +47,7 @@ function App() {
             <div key={post.id} className="post">
               <h1 className='postName'>{post.name}</h1>
               <h1 className='postContent'>{post.content}</h1>
-              <button>削除</button>
+              <button onClick={() => handleDelete(post.id)}>削除</button>
             </div>
           ))}
         </div>
